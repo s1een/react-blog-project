@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import avatar from "../assets/avatar6.png";
 
 function PostPage() {
   const [user, setUser] = useState({});
@@ -30,11 +29,14 @@ function PostPage() {
       console.log(error);
     }
   }
-  console.log(user);
   return (
     <div className="single-post-container">
       <div className="post-img">
-        <img src={avatar} alt="avatar" className="avatar single" />
+        <img
+          src={`https://robohash.org/${id}`}
+          alt="avatar"
+          className="avatar single"
+        />
       </div>
       <div className="user-name-countiner">
         <div className="username">

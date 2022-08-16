@@ -5,7 +5,7 @@ export const useSortedPosts = (posts, sort) => {
     if (sort) {
       switch (sort) {
         case "id":
-          return [...posts].sort((a, b) => a[sort] - b[sort]);
+          return [...posts].sort((a, b) => b[sort] - a[sort]);
         case "title":
           return [...posts].sort((a, b) => a[sort].localeCompare(b[sort]));
         case "body":
@@ -28,3 +28,18 @@ export const usePosts = (posts, sort, query) => {
   }, [query, sortedPosts]);
   return sortedAndSearchedPosts;
 };
+
+export function postValidate(title, text) {
+  if (
+    title &&
+    text &&
+    title.length > 5 &&
+    title.length < 80 &&
+    text.length > 5 &&
+    title.length < 400
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}

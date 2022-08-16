@@ -4,50 +4,34 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal, postCreate } from "../redux/actions";
+import { closeEdit, postEdit } from "../redux/actions";
 import Alert from "react-bootstrap/Alert";
 import { postValidate } from "../hooks/usePosts";
 
-function ModalWindow() {
+function ModalEdit() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [id, setID] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const dispatch = useDispatch();
-  const show = useSelector((state) => state.appReducer.modal);
-  const id = useSelector((state) => state.postsReducer.posts.length);
+  const maxPost = useSelector((state) => state.postsReducer.posts.length);
+  const show = useSelector((state) => state.appReducer.edit);
   function handleClose() {
-    dispatch(closeModal());
+    dispatch(closeEdit());
   }
+
   function handleSubmit() {
-    if (postValidate(title, text)) {
-      dispatch(postCreate(title, text, id + 1));
-      sendPost();
+    if (postValidate(title, text) && id <= maxPost) {
+      dispatch(postEdit(id, title, text));
+      dispatch(closeEdit());
+      setID("");
+      setTitle("");
+      setText("");
       showAlretSuccess();
     } else {
       showAlertError();
-    }
-  }
-
-  async function sendPost() {
-    try {
-      let response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          title: title,
-          body: text,
-          userId: 1,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-
-      let result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -55,7 +39,7 @@ function ModalWindow() {
     setIsSuccess(true);
     setIsError(false);
     setTimeout(() => {
-      dispatch(closeModal());
+      dispatch(closeEdit());
       setIsSuccess(false);
       setText("");
       setTitle("");
@@ -67,18 +51,28 @@ function ModalWindow() {
       setIsError(false);
     }, 2000);
   }
+
   return (
     <Modal show={show} animation={true}>
       <Modal.Header closeButton onHide={handleClose}>
-        <Modal.Title>Create Post</Modal.Title>
+        <Modal.Title>Edit Post</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
+            <FloatingLabel label="Post ID">
+              <Form.Control
+                type="text"
+                value={id}
+                autoFocus
+                onChange={(e) => setID(e.target.value)}
+              />
+            </FloatingLabel>
+          </Form.Group>
+          <Form.Group className="mb-3">
             <FloatingLabel label="Post Title">
               <Form.Control
                 type="text"
-                autoFocus
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -95,11 +89,11 @@ function ModalWindow() {
             </FloatingLabel>
           </Form.Group>
           {isSuccess && (
-            <Alert variant="success">The post was successfully created!</Alert>
+            <Alert variant="success">The post was successfully edited!</Alert>
           )}
           {isError && (
             <Alert variant="danger">
-              Error creating post, please check the correctness of the entered
+              Error editing post, please check the correctness of the entered
               data.
             </Alert>
           )}
@@ -110,11 +104,11 @@ function ModalWindow() {
           Close
         </Button>
         <Button variant="primary" onClick={handleSubmit}>
-          Create Post
+          Edit Post
         </Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default ModalWindow;
+export default ModalEdit;

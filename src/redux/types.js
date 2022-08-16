@@ -1,6 +1,12 @@
+export const LOGIN_ON = "LOGIN_ON";
+export const LOGIN_OFF = "LOGIN_OFF";
 export const POSTS_LOAD = "POSTS_LOAD";
 export const LOADER_DISPLAY_ON = "LOADER_DISPLAY_ON";
 export const LOADER_DISPLAY_OFF = "LOADER_DISPLAY_OFF";
 export const MODAL_DISPLAY_ON = "MODAL_DISPLAY_ON";
 export const MODAL_DISPLAY_OFF = "MODAL_DISPLAY_OFF";
+export const MODAL_EDIT_ON = "MODAL_EDIT_ON";
+export const MODAL_EDIT_OFF = "MODAL_EDIT_OFF";
 export const POST_CREATE = "POST_CREATE";
+export const POST_DELETE = "POST_DELETE";
+export const POST_EDIT = "POST_EDIT";

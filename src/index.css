@@ -110,6 +110,16 @@ body {
 .nav-items a:hover {
   color: var(--ifm-color-primary);
 }
+.menu-header {
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-primary);
+}
+.menu-header:hover {
+  background-color: var(--ifm-background-color);
+}
+.dropdown-menu-dark {
+  background-color: var(--ifm-background-surface-color);
+}
 .wrapper {
   margin: 0 auto;
   max-width: 900px;
@@ -199,4 +209,30 @@ body {
 
 .info-title {
   margin: 0 0 10px 0;
+}
+
+.player-audio {
+  height: 30px;
+}
+
+.search {
+  max-width: 900px;
+  margin: 10px auto;
+  color: "#ba8fff";
+  background-color: "#18191a";
+}
+.error {
+  margin: 0 auto;
+}
+
+.login {
+  margin: 10px auto;
+  max-width: 500px;
+}
+.login-form {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }

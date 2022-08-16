@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { postsLoad } from "../redux/actions";
+import React from "react";
 import Post from "../components/Post";
-import { useSortedPosts } from "../hooks/usePosts";
+import { usePosts } from "../hooks/usePosts";
 
-function Posts({ filter }) {
-  const posts = useSelector((state) => state.postsReducer.posts);
-  const dispatch = useDispatch();
-  const sorted = useSortedPosts(posts, filter.sort);
-  useEffect(() => {
-    dispatch(postsLoad());
-  }, []);
-
+function Posts({ filter, posts }) {
+  const sorted = usePosts(posts, filter.sort, filter.query);
   return (
     <main className="wrapper">
       <div className="posts">
+        {!sorted.length && (
+          <div className="post-item">
+            <h1 className="error">No posts found!</h1>
+          </div>
+        )}
         {sorted.map((post) => (
           <Post
             key={post.id}
@@ -22,6 +19,7 @@ function Posts({ filter }) {
             title={post.title}
             body={post.body}
             userId={post.userId}
+            avatar={post.avatar}
           />
         ))}
       </div>

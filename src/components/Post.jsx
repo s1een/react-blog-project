@@ -1,34 +1,37 @@
-import React from "react";
-import { Navigate, useNavigate } from "react-router";
-import avatar from "../assets/avatar.png";
-import avatar2 from "../assets/avatar2.png";
-import avatar3 from "../assets/avatar3.png";
-import avatar4 from "../assets/avatar4.png";
-import avatar5 from "../assets/avatar5.png";
-import avatar6 from "../assets/avatar6.png";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import CloseButton from "react-bootstrap/CloseButton";
+import { useDispatch } from "react-redux";
+import { postDelete } from "../redux/actions";
 
-const avatars = [avatar, avatar2, avatar3, avatar4, avatar5, avatar6];
-function shuffle() {
-  return Math.floor(Math.random() * avatars.length);
-}
-function Post({ id, title, body, userId }) {
+function Post({ id, title, body, userId, avatar }) {
+  const [deleteSign, setDeleteSign] = useState(false);
+  const dispatch = useDispatch();
+  function deletePost() {
+    dispatch(postDelete(id));
+  }
   return (
     <div className="post-item">
       <div className="img-container">
         <Link to={`/posts/${id}`}>
-          <img
-            src={avatars[shuffle(avatars)]}
-            alt="avatar"
-            className="avatar"
-          />
+          <img src={avatar} alt="avatar" className="avatar" />
         </Link>
       </div>
       <div className="info-container">
         <div className="title-block">
           <h2 className="name">{title}</h2>
-          <div className="id-block">
-            <span className="post-id">{id}</span>
+          <div
+            onMouseEnter={() => setDeleteSign(true)}
+            onMouseLeave={() => setDeleteSign(false)}
+            className="id-block"
+          >
+            {deleteSign ? (
+              <div>
+                <CloseButton onClick={deletePost} variant="white" />
+              </div>
+            ) : (
+              <span className="post-id">{id}</span>
+            )}
           </div>
         </div>
         <hr className="line" />
